@@ -5,7 +5,7 @@ python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 chmod +x start.sh
-cp ACCS.service /etc/systemc/system
+cp ACCS.service /etc/systemd/system
 systemctl daemon-reload
 systemctl enable ACCS
 systemctl start ACCS
