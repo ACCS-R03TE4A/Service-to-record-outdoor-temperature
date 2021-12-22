@@ -1,0 +1,10 @@
+[Unit]
+Description=ACCSの外気温記録サービス
+
+[Service]
+Type=simple
+ExecStart=/root/Service-to-record-outdoor-temperature/start.sh
+WorkingDirectory=/root/Service-to-record-outdoor-temperature
+
+[Install]
+WantedBy=multi-user.target
