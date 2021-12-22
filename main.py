@@ -30,4 +30,5 @@ while True:
         print(f"Transmission success! Response messege : {ret.text}")
     except Exception as error:
         traceback.print_exc()
+        quit()
     time.sleep(config["recording_interval(min)"] * 60)
