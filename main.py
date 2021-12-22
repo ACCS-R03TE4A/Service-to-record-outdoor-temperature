@@ -4,7 +4,8 @@ import requests
 import db
 from search_temperature import get_temperature
 from setting import Setting
-import sys
+import traceback
+
 config = {}
 try:
     print("Load config.json")
@@ -28,5 +29,5 @@ while True:
         ret = requests.get(f"http://localhost:5000/temperatureActual?sNumber=2&tActual={temp}")
         print(f"Transmission success! Response messege : {ret.text}")
     except Exception as error:
-        print(error, file=sys.stderr)
+        traceback.print_exc()
     time.sleep(config["recording_interval(min)"] * 60)
