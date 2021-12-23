@@ -5,30 +5,36 @@ import db
 from search_temperature import get_temperature
 from setting import Setting
 import traceback
+import logging
 
 config = {}
+
 try:
-    print("Load config.json")
+    logging.debug("Load config.json")
     with open("config.json","r") as f:
         config = json.load(f)
 except FileNotFoundError:
-    print("Could not find config.json. Create it.")
+    logging.debug("Could not find config.json. Create it.")
     with open("config.json","w") as f:
-        json.dump({"recording_interval(min)":1}, f)
-
+        json.dump({
+            "recording_interval(min)":1,
+             "logging_filename":"log", 
+             "logging_level(DEBUG:10, INFO:20, WARN:30)":logging.DEBUG
+             }, f)
+logging.basicConfig(filename=config["logging_filename"], level=config["logging_level(DEBUG:10, INFO:20, WARN:30)"])
 #郵便番号をデータベースからとってくる
 if Setting.objects.all().count() == 0:
-    print(Setting(postnumber="980-0013").save())
+    logging.debug(Setting(postnumber="980-0013").save())
 
 while True:
     try:
         pn = Setting.objects.first().postnumber
-        print(f"Post number : {pn}")
+        logging.debug(f"Post number : {pn}")
         temp = get_temperature(pn)
-        print(f"Temperature : {temp}")
+        logging.debug(f"Temperature : {temp}")
         ret = requests.get(f"http://localhost:5000/temperatureActual?sNumber=2&tActual={temp}")
-        print(f"Transmission success! Response messege : {ret.text}")
+        logging.debug(f"Transmission success! Response messege : {ret.text}")
     except Exception as error:
-        traceback.print_exc()
+        logging.exception(traceback.format_exc())
         quit()
     time.sleep(config["recording_interval(min)"] * 60)

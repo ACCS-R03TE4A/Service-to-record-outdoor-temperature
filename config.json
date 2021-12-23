@@ -1,1 +1,5 @@
-{"recording_interval(min)": 1}
+{
+    "recording_interval(min)": 1,
+    "logging_filename": "log",
+    "logging_level(DEBUG:10, INFO:20, WARN:30)": 10
+}
