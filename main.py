@@ -26,7 +26,7 @@ try:
     open(config["logging_filename"],"r").close()
 except FileNotFoundError:
     open(config["logging_filename"],"w").close()
-logging.basicConfig(filename=config["logging_filename"], level=config["logging_level(DEBUG:10, INFO:20, WARN:30)"])
+logging.basicConfig(filename=config["logging_filename"], level=config["logging_level(DEBUG:10, INFO:20, WARN:30)"], format="%(asctime)s %(levelname)s %(message)s[%(call_count)d]")
 #郵便番号をデータベースからとってくる
 if Setting.objects.all().count() == 0:
     logging.debug(Setting(postnumber="980-0013").save())
