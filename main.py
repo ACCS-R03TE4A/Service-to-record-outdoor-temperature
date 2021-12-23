@@ -37,7 +37,10 @@ while True:
         logging.debug(f"Post number : {pn}")
         temp = get_temperature(pn)
         logging.debug(f"Temperature : {temp}")
-        ret = requests.get(f"http://localhost:5000/temperatureActual?sNumber=2&tActual={temp}")
+        # localhostはproxyを通さないようにする
+        session = requests.Session()
+        session.trust_env = False
+        ret = session.get(f"http://localhost:5000/temperatureActual?sNumber=2&tActual={temp}")
         logging.debug(f"Transmission success! Response messege : {ret.text}")
     except Exception as error:
         logging.exception(traceback.format_exc())
