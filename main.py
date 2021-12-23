@@ -19,7 +19,9 @@ except FileNotFoundError:
             "recording_interval(min)":1,
              "logging_filename":"log", 
              "logging_level(DEBUG:10, INFO:20, WARN:30)":logging.DEBUG
-             }, f)
+             }, f, indent=4)
+    with open("config.json","r") as f:
+        config = json.load(f)
 try:
     open(config["logging_filename"],"r").close()
 except FileNotFoundError:
