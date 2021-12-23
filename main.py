@@ -8,19 +8,22 @@ import traceback
 import logging
 
 config = {}
-
 try:
-    logging.debug("Load config.json")
+    print("Load config.json")
     with open("config.json","r") as f:
         config = json.load(f)
 except FileNotFoundError:
-    logging.debug("Could not find config.json. Create it.")
+    print("Could not find config.json. Create it.")
     with open("config.json","w") as f:
         json.dump({
             "recording_interval(min)":1,
              "logging_filename":"log", 
              "logging_level(DEBUG:10, INFO:20, WARN:30)":logging.DEBUG
              }, f)
+try:
+    open(config["logging_filename"],"r").close()
+except FileNotFoundError:
+    open(config["logging_filename"],"w").close()
 logging.basicConfig(filename=config["logging_filename"], level=config["logging_level(DEBUG:10, INFO:20, WARN:30)"])
 #郵便番号をデータベースからとってくる
 if Setting.objects.all().count() == 0:
